@@ -6,8 +6,14 @@ var Users = require('../models/users');
 
 //GET request to /users
 router.get('/users', function(req, res){
-
-    res.json(JSON.parse(Users.find()));
+    Users.find()
+    .then(users => {
+        res.send(200, users)
+        next()
+    })
+    .catch(err => {
+        res.send(500, err)
+    })
 });
 
 //POST request to /users

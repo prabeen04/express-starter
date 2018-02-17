@@ -3,6 +3,10 @@ const router = express.Router();
 
 var Users = require('../models/users');
 
+//GET request to /
+router.get('/', function(req, res){
+    res.send('go to /users')
+});
 
 //GET request to /users
 router.get('/users', function(req, res){

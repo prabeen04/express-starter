@@ -46,4 +46,21 @@ router.get('/posts', function(req, res){
         res.send(500, err)
     })
 });
+
+//POST request to /users
+router.post('/posts', function(req, res){
+    res.send('this is a POST request');
+});
+
+//PUT request to /posts/:id
+router.put('/posts/:id', function(req, res){
+    res.send('this is a PUT request');
+});
+
+//DELETE request to /posts/:id
+router.delete('/posts/:id', function(req, res){
+    res.send('this is a DELETE request');
+});
+
+
 module.exports = router;

@@ -35,4 +35,15 @@ router.delete('/users/:id', function(req, res){
     res.send('this is a DELETE request');
 });
 
+//GET request to /users
+router.get('/posts', function(req, res){
+    Posts.find()
+    .then(posts => {
+        res.send(200, posts)
+        next()
+    })
+    .catch(err => {
+        res.send(500, err)
+    })
+});
 module.exports = router;

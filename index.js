@@ -23,6 +23,14 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 app.use('/api', routes)
+console.log('after route handler')
+app.use(function(err, req, res, next){
+    console.log(req);
+    if(err){
+        res.send(err.message);
+    }
+    next();
+})
 app.get('/', function(req, res){
     res.send('Go to /api to connect to the restAPI');
 });

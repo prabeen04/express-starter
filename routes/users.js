@@ -21,17 +21,15 @@ router.get('/users', function(req, res){
 });
 
 //POST request to /users
-router.post('/users', function(req, res){
+router.post('/users', function(req, res, next){
     var users = (req.body) ;
     console.log(users);
-    res.json(req.body);
-    Users.create(users, function(err, users){
-        if(err){
-            console.log(err);
-            throw err;
-        }
-        res.json(users);
+    Users.create(users)
+    .then(user =>{
+        console.log('inside then');
+        res.status(200).send(user)
     })
+    .catch(next)
     
 });
 
@@ -50,10 +48,9 @@ router.get('/posts', function(req, res){
     Posts.find()
     .then(posts => {
          res.status(200).send(posts)
-        next()
     })
-    .catch(err => {
-        res.status(500).send(err)
+    .catch(() => {
+        next();
     })
 });
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-var cors = require('cors');
+const cors = require('cors');
 const routes = require('./routes/users');
 
 const app = express();
@@ -15,27 +15,32 @@ var db = mongoose.connection;
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // 
-  
+
 /////middlewares////
+// cors middleware
 app.use(cors());
+
+// body parser middleware
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: false
-}))
+}));
+
+// route handler middleware
 app.use('/api', routes)
-console.log('after route handler')
-app.use(function(err, req, res, next){
-    console.log(req);
-    if(err){
+
+// error handling middleware
+app.use(function (err, req, res, next) {
+    if (err) {
         res.send(err.message);
     }
     next();
 })
-app.get('/', function(req, res){
+app.get('/', function (req, res) {
     res.send('Go to /api to connect to the restAPI');
 });
 
 
-app.listen(process.env.PORT || 8080, function(){
+app.listen(process.env.PORT || 8080, function () {
     console.log('server started...');
 });

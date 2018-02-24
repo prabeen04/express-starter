@@ -7,7 +7,8 @@ const routes = require('./routes/users');
 const app = express();
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://prabeen04:chicharito14@ds125368.mlab.com:25368/prabeen-restapi');
+// mongoose.connect('mongodb://prabeen04:chicharito14@ds125368.mlab.com:25368/prabeen-restapi');
+mongoose.connect('mongodb://localhost/users');
 //Get the default connection
 var db = mongoose.connection;
 

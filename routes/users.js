@@ -12,11 +12,11 @@ router.get('/', function(req, res){
 router.get('/users', function(req, res){
     Users.find()
     .then(users => {
-        res.send(200, users)
+        res.status(200).send(users)
         next()
     })
     .catch(err => {
-        res.send(500, err)
+        res.status(500).send(err)
     })
 });
 
@@ -39,11 +39,11 @@ router.delete('/users/:id', function(req, res){
 router.get('/posts', function(req, res){
     Posts.find()
     .then(posts => {
-        res.send(200, posts)
+         res.status(200).send(posts)
         next()
     })
     .catch(err => {
-        res.send(500, err)
+        res.status(500).send(err)
     })
 });
 

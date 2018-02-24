@@ -33,14 +33,22 @@ router.post('/users', function (req, res, next) {
 
 //PUT request to /users/:id
 router.put('/users/:id', function (req, res, next) {
-    res.send('this is a PUT request');
+    Users.findByIdAndUpdate({ "_id": req.params.id }, req.body)
+    .then(() => {
+        Users.findOne({ "_id": req.params.id })
+        .then(user => {
+            res.status(200).send(user);
+        })
+        .catch(next)
+    })
+    .catch(next)
 });
 
 //DELETE request to /users/:id
 router.delete('/users/:id', function (req, res, next) {
     Users.findByIdAndRemove({ "_id": req.params.id })
-        .then(user => {
-            res.status(200).send(user);
+        .then((user) => {
+            res.status(200).send(user);        
         })
         .catch(next)
 });

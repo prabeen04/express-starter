@@ -22,14 +22,15 @@ router.get('/users', function(req, res){
 
 //POST request to /users
 router.post('/users', function(req, res){
-    var users = req.body;
+    var users = (req.body) ;
     console.log(users);
+    res.json(req.body);
     Users.create(users, function(err, users){
         if(err){
             console.log(err);
             throw err;
         }
-        res.send(users);
+        res.json(users);
     })
     
 });

@@ -22,12 +22,12 @@ app.use(function(req, res, next) {
   
 /////middlewares////
 app.use(cors());
-app.use('/api', routes)
+// app.use('/api', routes)
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: false
 }))
-
+app.use('/api', routes)
 app.get('/', function(req, res){
     res.send('Go to /api to connect to the restAPI');
 });

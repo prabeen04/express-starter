@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const bodyParser = require('body-parser');
 var Users = require('../models/users');
 
 //GET request to /
@@ -22,13 +22,14 @@ router.get('/users', function(req, res){
 
 //POST request to /users
 router.post('/users', function(req, res){
-    users = req.body;
-    Users.create(users, function(err, user){
+    var users = req.body;
+    console.log(users);
+    Users.create(users, function(err, users){
         if(err){
             console.log(err);
             throw err;
         }
-        res.send(user);
+        res.send(users);
     })
     
 });

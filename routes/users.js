@@ -5,7 +5,7 @@ var Users = require('../models/users');
 
 //GET request to /
 router.get('/', function(req, res){
-    res.send('go to /users')
+    res.send(`<h1>Congratulations......</h1>`)
 });
 
 //GET request to /users

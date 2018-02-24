@@ -22,7 +22,15 @@ router.get('/users', function(req, res){
 
 //POST request to /users
 router.post('/users', function(req, res){
-    res.send('this is a POST request');
+    users = req.body;
+    Users.create(users, function(err, user){
+        if(err){
+            console.log(err);
+            throw err;
+        }
+        res.send(user);
+    })
+    
 });
 
 //PUT request to /users/:id

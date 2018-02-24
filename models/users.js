@@ -9,7 +9,13 @@ var UsersSchema = new schema({
     },
     email: {
         type: String
-    }
+    },
+    location: {
+        type: String
+    },
+    hobbies: {
+        type: [Strings]
+    }    
 })
 
 var UsersModel = mongoose.model('users', UsersSchema);

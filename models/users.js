@@ -14,7 +14,7 @@ var UsersSchema = new schema({
         type: String
     },
     hobbies: {
-        type: [Strings]
+        type: [String]
     }    
 })
 

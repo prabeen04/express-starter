@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const routes = require('./routes/users');
+const postsroutes = require('./routes/posts');
 
 const app = express();
 
@@ -27,7 +28,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 // route handler middleware
-app.use('/api', routes)
+app.use('/api', [routes, postsroutes])
 
 // error handling middleware
 app.use(function (err, req, res, next) {

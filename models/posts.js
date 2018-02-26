@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-var schema = mongoose.schema;
+var schema = mongoose.Schema;
 
 var PostSchema = new schema({
     title: {
@@ -19,4 +19,4 @@ var PostSchema = new schema({
 })
 
 var PostModel = mongoose.model('posts', PostSchema);
-module.exports = Posts;
+module.exports = PostModel;

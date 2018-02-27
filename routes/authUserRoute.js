@@ -21,12 +21,20 @@ router.post('/register',
     [
         check('username')
             .exists().withMessage('username is required'),
-        // .custom(value => {
-        //     return findUserByEmail(value).then(user => {
-        //         throw new Error('this email is already in use');
-        //     })
-        // }),
-
+            // .custom(value => {
+            //     return findUserByEmail(value).then(user => {
+            //         console.log('this email is already in use');
+            //         throw new Error('this email is already in use');
+            //     })
+            // }),
+        check('email')
+            .exists().withMessage('email is required'),
+            // .custom(value => {
+            //     return findUserByEmail(value).then(user => {
+            //         console.log('this email is already in use');
+            //         throw new Error('this email is already in use');
+            //     })
+            // }),
         // General error messages can be given as a 2nd argument in the check APIs
         check('password', 'passwords must be at least 8 chars long and contain one number')
             .isLength({ min: 8 })
@@ -88,11 +96,13 @@ router.post('/login',
         AuthUser.findOne(authuser)
             .then(user => {
                 bcrypt.compare(req.body.password, user.password, function (err, response) {
-                    if(err){
+                    if (err) {
                         console.log(err);
                     }
-                    // console.log(response);
-                    if(response){
+                    if (response == false) {
+                        res.status(422).send('invalid password');
+                    }
+                    if (response == true) {
                         res.status(200).send(user.email);
                     }
                 })

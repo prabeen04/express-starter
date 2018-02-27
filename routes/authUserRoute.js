@@ -4,13 +4,20 @@ const bodyParser = require('body-parser');
 var AuthUser = require('../models/authUsers');
 
 router.get('/register', function(req, res, next){
-    res.send('get is working');
+    AuthUser.find()
+        .then(users => {
+            res.status(200).send(users);
+        }).catch(next);
 })
 
 router.post('/register', function(req, res, next){
     var user = req.body;
-    console.log(user);
-    res.send('post is working');
+    AuthUser.create(user)
+        .then(user => {
+            console.log(user);
+            res.status(200).send(user);
+        })
+        .catch(next)
 })
 
 module.exports = router;

@@ -25,7 +25,7 @@ router.post('/register',
         // }),
 
         // General error messages can be given as a 2nd argument in the check APIs
-        check('password', 'passwords must be at least 5 chars long and contain one number')
+        check('password', 'passwords must be at least 8 chars long and contain one number')
             .isLength({ min: 8 })
             .matches(/\d/),
     ],

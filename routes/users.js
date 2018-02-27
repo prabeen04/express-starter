@@ -2,26 +2,21 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 var Users = require('../models/users');
-
 //GET request to /
-router.get('/', function (req, res) {
-    res.send(`<h1>Congratulations......</h1>`)
-});
-
+// router.get('/', function (req, res) {
+//     res.send(`<h1>Congratulations......</h1>`)
+// });
 //GET request to /users
-router.get('/users', function (req, res) {
+router.get('/users', function (req, res, next) {
     Users.find()
-        .then(users => {
-            res.status(200).send(users)
-            next()
+        .then(function(users){
+            res.send(users)
+            next
         })
-        .catch(err => {
-            res.status(500).send(err)
-        })
+        .catch(next)
 });
-
 //POST request to /users
-router.post('/users', function (req, res, next) {
+router.post('/users', function (req, res, next) {   
     var users = (req.body);
     Users.create(users)
         .then(user => {

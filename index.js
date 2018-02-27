@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const routes = require('./routes/users');
 const postsroutes = require('./routes/posts');
+var cors = require('cors')
 
 const app = express();
 
@@ -19,7 +19,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 /////middlewares////
 // cors middleware
-app.use(cors());
+app.use(cors())
 
 // body parser middleware
 app.use(bodyParser.json())
@@ -29,10 +29,11 @@ app.use(bodyParser.urlencoded({
 
 // route handler middleware
 app.use('/api', [routes, postsroutes])
-
 // error handling middleware
 app.use(function (err, req, res, next) {
+    console.log('inside error handler middle ware')
     if (err) {
+        console.log('inside error handler middle ware')
         res.send(err.message);
     }
     next();

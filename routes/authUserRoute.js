@@ -6,7 +6,23 @@ const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 var bcrypt = require('bcrypt');
 const saltRounds = 10;
+var passport = require('passport')
+var LocalStrategy = require('passport-local').Strategy;
 
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    User.findOne({ username: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { message: 'Incorrect username.' });
+      }
+      if (!user.validPassword(password)) {
+        return done(null, false, { message: 'Incorrect password.' });
+      }
+      return done(null, user);
+    });
+  }
+));
 
 // GET ALL THE USERS FROM THE AUTHENTICATED USERS
 router.get('/register', function (req, res, next) {

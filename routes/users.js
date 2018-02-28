@@ -2,10 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 var Users = require('../models/users');
-//GET request to /
-// router.get('/', function (req, res) {
-//     res.send(`<h1>Congratulations......</h1>`)
-// });
+
 //GET request to /users
 router.get('/users', function (req, res, next) {
     Users.find()

@@ -21,12 +21,6 @@ router.post('/register',
     [
         check('username')
             .exists().withMessage('username is required'),
-            // .custom(value => {
-            //     return findUserByEmail(value).then(user => {
-            //         console.log('this email is already in use');
-            //         throw new Error('this email is already in use');
-            //     })
-            // }),
         check('email')
             .exists().withMessage('email is required'),
             // .custom(value => {
@@ -71,16 +65,6 @@ router.post('/login',
     [
         check('email')
             .exists().withMessage('email is required')
-        // .custom(value => {
-        //     return findUserByEmail(value).then(user => {
-        //         throw new Error('this email is already in use');
-        //     })
-        // })
-
-        // General error messages can be given as a 2nd argument in the check APIs
-        // check('password', 'passwords must be at least 8 chars long and contain one number')
-        //     .isLength({ min: 8 })
-        //     .matches(/\d/),
     ],
     function (req, res, next) {
         // check for validation error server-side and throw error

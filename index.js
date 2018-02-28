@@ -13,6 +13,7 @@ const app = express();
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://prabeen04:chicharito14@ds125368.mlab.com:25368/prabeen-restapi');
 // mongoose.connect('mongodb://localhost/users');
+
 //Get the default connection
 var db = mongoose.connection;
 
@@ -28,7 +29,7 @@ app.use(cors())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: false
-}));
+})); 
 
 // route handler middleware
 app.use('/api', [routes, postsroutes, authUserRoute]);

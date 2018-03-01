@@ -11,7 +11,7 @@ const { matchedData, sanitize } = require('express-validator/filter');
 var jwt = require('jsonwebtoken');
 var passport = require("passport");
 var passportJWT = require("passport-jwt");
-
+var LocalStrategy = require('passport-local').Strategy;
 var ExtractJwt = passportJWT.ExtractJwt;
 var JwtStrategy = passportJWT.Strategy;
 
@@ -37,7 +37,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: false
 })); 
-
+app.use(passport.initialize());
 // route handler middleware
 app.use('/api', [routes, postsroutes, authUserRoute]);
 // error handling middleware

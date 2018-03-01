@@ -19,7 +19,9 @@
     "nodemon": "^1.14.11",
     "bcrypt": "^1.0.3",
     "passport": "^0.4.0",
-    "passport-local": "1.0.0"
+    "passport-local": "1.0.0",
+    "passport-jwt": "1.0.0",
+    "jsonwebtoken": "8.1.1"
   },
   "devDependencies": {
     "nodemon": "^1.14.12"

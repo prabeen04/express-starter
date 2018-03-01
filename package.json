@@ -17,7 +17,9 @@
     "express-validator": "^5.0.2",
     "mongoose": "^5.0.1",
     "nodemon": "^1.14.11",
-    "bcrypt": "^1.0.3"
+    "bcrypt": "^1.0.3",
+    "passport": "^0.4.0",
+    "passport-local": "1.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.14.12"

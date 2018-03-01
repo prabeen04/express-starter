@@ -20,7 +20,7 @@ passport.use(new LocalStrategy(
             // if (!user.validPassword(password)) {
             //     return done(null, false, { message: 'Incorrect password.' });
             // }
-            console.log(user)
+            // console.log(user)
             return done(null, user);
         });
     }
@@ -34,13 +34,13 @@ router.post('/login',
      passport.authenticate('local', {
         session: false
       }),
-    function (req, res, next) {
+    function ( req, res, next) {
         // check for validation error server-side and throw error
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.mapped() });
         }
-        // console.log(req);
+         console.log(req);
         // console.log(res);
         // var authuser = {
         //     email: req.body.email,

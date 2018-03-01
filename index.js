@@ -8,12 +8,9 @@ var cors = require('cors')
 const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 
-var jwt = require('jsonwebtoken');
 var passport = require("passport");
-var passportJWT = require("passport-jwt");
 var LocalStrategy = require('passport-local').Strategy;
-var ExtractJwt = passportJWT.ExtractJwt;
-var JwtStrategy = passportJWT.Strategy;
+
 
 const app = express();
 

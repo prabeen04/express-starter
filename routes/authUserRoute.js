@@ -10,18 +10,25 @@ var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy;
 
 passport.use(new LocalStrategy(
-    {usernameField:"email", passwordField:"password"},
+    { usernameField: "email", passwordField: "password" },
     function (username, password, done) {
         AuthUser.findOne({ email: username }, function (err, user) {
             if (err) { return done(err); }
             if (!user) {
                 return done(null, false, { message: 'Incorrect username.' });
             }
-            // if (!user.validPassword(password)) {
-            //     return done(null, false, { message: 'Incorrect password.' });
-            // }
-            // console.log(user)
-            return done(null, user);
+            bcrypt.compare(password, user.password, function (err, response) {
+                if (err) {
+                    console.log(err);
+                }
+                if (response == false) {
+                    return done(null, false, { message: 'Incorrect password.' });
+                }
+                if (response == true) {
+                    return done(null, user);
+                }
+            })
+
         });
     }
 ));
@@ -31,16 +38,16 @@ router.post('/login',
         check('email')
             .exists().withMessage('email is required')
     ],
-     passport.authenticate('local', {
+    passport.authenticate('local', {
         session: false
-      }),
-    function ( req, res, next) {
+    }),
+    function (req, res, next) {
         // check for validation error server-side and throw error
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.mapped() });
         }
-         console.log(req);
+        console.log(req.user);
         // console.log(res);
         // var authuser = {
         //     email: req.body.email,

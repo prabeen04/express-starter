@@ -16,24 +16,33 @@ var jwt = require('jsonwebtoken');
 passport.use(new LocalStrategy(
     { usernameField: "email", passwordField: "password" },
     function (username, password, done) {
-        AuthUser.findOne({ email: username }, function (err, user) {
-            if (err) { return done(err); }
-            if (!user) {
-                return done(null, false, { message: 'Incorrect username.' });
-            }
-            bcrypt.compare(password, user.password, function (err, response) {
-                if (err) {
-                    console.log(err);
-                }
-                if (response == false) {
-                    return done(null, false, { message: 'Incorrect password.' });
-                }
-                if (response == true) {
-                    return done(null, user);
-                }
-            })
+                //this one is typically a DB call. Assume that the returned user object is pre-formatted and ready for storing in JWT
+                return AuthUser.findOne({email: username})
+                .then(user => {
+                    if (!user) {
+                        return done(null, false, {message: 'Incorrect email or password.'});
+                    }
+                    return done(null, user, {message: 'Logged In Successfully'});
+               })
+               .catch(err => done(err));
+        // AuthUser.findOne({ email: username }, function (err, user) {
+        //     if (err) { return done(err); }
+        //     if (!user) {
+        //         return done(null, false, { message: 'Incorrect username.' });
+        //     }
+        //     bcrypt.compare(password, user.password, function (err, response) {
+        //         if (err) {
+        //             console.log(err);
+        //         }
+        //         if (response == false) {
+        //             return done(null, false, { message: 'Incorrect password.' });
+        //         }
+        //         if (response == true) {
+        //             return done(null, user);
+        //         }
+        //     })
 
-        });
+        // });
     }
 ));
 // LOGIN SYSTEM IN EXPRESS
@@ -51,26 +60,44 @@ router.post('/login',
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.mapped() });
         }
-        // console.log(res.user);
+
         passport.authenticate('local', {session: false}, (err, user, info) => {
-            console.log(err);
             if (err || !user) {
                 return res.status(400).json({
-                    message: info ? info.message : 'Login failed',
+                    message: 'Something is not right',
                     user   : user
                 });
             }
-    
-            req.login(user, {session: false}, (err) => {
-                if (err) {
-                    res.send(err);
-                }
-    
-                const token = jwt.sign(user, 'chicharito14');
-    
-                return res.json({user, token});
+           req.login(user, {session: false}, (err) => {
+               if (err) {
+                   res.send(err);
+               }
+               // generate a signed son web token with the contents of user object and return it in the response
+               const token = jwt.sign(user, 'your_jwt_secret');
+               return res.json({user, token});
             });
-    })
+        })(req, res);
+
+        // console.log(res.user);
+    //     passport.authenticate('local', {session: false}, (err, user, info) => {
+    //         console.log(err);
+    //         if (err || !user) {
+    //             return res.status(400).json({
+    //                 message: info ? info.message : 'Login failed',
+    //                 user   : user
+    //             });
+    //         }
+    
+    //         req.login(user, {session: false}, (err) => {
+    //             if (err) {
+    //                 res.send(err);
+    //             }
+    
+    //             const token = jwt.sign(user, 'chicharito14');
+    
+    //             return res.json({user, token});
+    //         });
+    // })
     });
 // GET ALL THE USERS FROM THE AUTHENTICATED USERS
 router.get('/register', function (req, res, next) {

@@ -60,6 +60,7 @@ router.post('/login',
         }
         const token = jwt.sign({id: req.user._id}, 'chicharito14');
         console.log(token);
+        return res.json(token);
     //     passport.authenticate('local', {session: false}, (err, user, info) => {
     //         console.log('inside passport authenticate')
     //         console.log(err);

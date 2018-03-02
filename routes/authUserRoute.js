@@ -16,33 +16,30 @@ var jwt = require('jsonwebtoken');
 passport.use(new LocalStrategy(
     { usernameField: "email", passwordField: "password" },
     function (username, password, done) {
-                //this one is typically a DB call. Assume that the returned user object is pre-formatted and ready for storing in JWT
-                return AuthUser.findOne({email: username})
-                .then(user => {
-                    if (!user) {
-                        return done(null, false, {message: 'Incorrect email or password.'});
-                    }
-                    return done(null, user, {message: 'Logged In Successfully'});
-               })
-               .catch(err => done(err));
-        // AuthUser.findOne({ email: username }, function (err, user) {
-        //     if (err) { return done(err); }
-        //     if (!user) {
-        //         return done(null, false, { message: 'Incorrect username.' });
-        //     }
-        //     bcrypt.compare(password, user.password, function (err, response) {
-        //         if (err) {
-        //             console.log(err);
-        //         }
-        //         if (response == false) {
-        //             return done(null, false, { message: 'Incorrect password.' });
-        //         }
-        //         if (response == true) {
-        //             return done(null, user);
-        //         }
-        //     })
+        console.log('inside local stratagy callback')
+        AuthUser.findOne({ email: username }, function (err, user) {
+            console.log('inside database query for user')
+            if (err) { return done(err); }
+            if (!user) {
+                console.log('incorect username');
+                return done(null, false, { message: 'Incorrect username.' });
+            }
+            bcrypt.compare(password, user.password, function (err, response) {
+                console.log('inside bcrypt password')
+                if (err) {
+                    console.log(err);
+                }
+                if (response == false) {
+                    console.log('incorect password');
+                    return done(null, false, { message: 'Incorrect password.' });
+                }
+                if (response == true) {
+                    console.log('perfect login');
+                    return done(null, user);
+                }
+            })
 
-        // });
+        });
     }
 ));
 // LOGIN SYSTEM IN EXPRESS
@@ -51,35 +48,19 @@ router.post('/login',
         check('email')
             .exists().withMessage('email is required')
     ],
-    // passport.authenticate('local', {
-    //     session: false
-    // }),
+    passport.authenticate('local', {
+        session: false
+    }),
     function (req, res, next) {
+        console.log(req.user)
         // check for validation error server-side and throw error
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.mapped() });
         }
-
-        passport.authenticate('local', {session: false}, (err, user, info) => {
-            if (err || !user) {
-                return res.status(400).json({
-                    message: 'Something is not right',
-                    user   : user
-                });
-            }
-           req.login(user, {session: false}, (err) => {
-               if (err) {
-                   res.send(err);
-               }
-               // generate a signed son web token with the contents of user object and return it in the response
-               const token = jwt.sign(user, 'your_jwt_secret');
-               return res.json({user, token});
-            });
-        })(req, res);
-
         // console.log(res.user);
     //     passport.authenticate('local', {session: false}, (err, user, info) => {
+    //         console.log('inside passport authenticate')
     //         console.log(err);
     //         if (err || !user) {
     //             return res.status(400).json({

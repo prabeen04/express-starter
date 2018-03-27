@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const routes = require('./routes/users');
 const postsroutes = require('./routes/posts');
 const todoRoutes = require('./routes/todo_routes');
-const authUserRoute = require('./routes/authUserRoute');
+// const authUserRoute = require('./routes/authUserRoute');
 var cors = require('cors')
 const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
@@ -37,7 +37,7 @@ app.use(bodyParser.urlencoded({
 })); 
 app.use(passport.initialize());
 // route handler middleware
-app.use('/api', [routes, postsroutes, todoRoutes, authUserRoute]);
+app.use('/api', [routes, postsroutes, todoRoutes/*, authUserRoute*/]);
 // error handling middleware
 app.use(function (err, req, res, next) {
     console.log('inside error handler middle ware')

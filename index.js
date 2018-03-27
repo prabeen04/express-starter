@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const routes = require('./routes/users');
 const postsroutes = require('./routes/posts');
+const todoRoutes = require('./routes/todo_routes');
 const authUserRoute = require('./routes/authUserRoute');
 var cors = require('cors')
 const { check, validationResult } = require('express-validator/check');
@@ -15,8 +16,8 @@ var LocalStrategy = require('passport-local').Strategy;
 const app = express();
 
 mongoose.Promise = global.Promise;
-// mongoose.connect('mongodb://prabeen04:chicharito14@ds125368.mlab.com:25368/prabeen-restapi');
-mongoose.connect('mongodb://localhost/users');
+mongoose.connect('mongodb://prabeen04:chicharito14@ds125368.mlab.com:25368/prabeen-restapi');
+// mongoose.connect('mongodb://localhost/users');
 
 //Get the default connection
 var db = mongoose.connection;
@@ -36,7 +37,7 @@ app.use(bodyParser.urlencoded({
 })); 
 app.use(passport.initialize());
 // route handler middleware
-app.use('/api', [routes, postsroutes, authUserRoute]);
+app.use('/api', [routes, postsroutes, todoRoutes, authUserRoute]);
 // error handling middleware
 app.use(function (err, req, res, next) {
     console.log('inside error handler middle ware')

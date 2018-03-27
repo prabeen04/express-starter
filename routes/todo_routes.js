@@ -17,7 +17,7 @@ router.get('/todos', function (req, res) {
 });
 
 //todo request to /todos
-router.todo('/todos', function (req, res, next) {
+router.post('/todos', function (req, res, next) {
     var todos = (req.body);
   Todos.create(todos)
         .then(todo => {

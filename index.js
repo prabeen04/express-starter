@@ -1,6 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const multer = require('multer');
+const GridFsStorage = require('multer-gridfs-storage');
+const GridFs = require('gridfs-stream');
+const methodOverride = require('method-override');
 const routes = require('./routes/users');
 const postsroutes = require('./routes/posts');
 const todoRoutes = require('./routes/todo_routes');
@@ -35,6 +39,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
     extended: false
 })); 
+app.use(methodOverride( '_method'));
 app.use(passport.initialize());
 // route handler middleware
 app.use('/api', [routes, postsroutes, todoRoutes/*, authUserRoute*/]);

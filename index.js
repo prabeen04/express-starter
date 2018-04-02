@@ -1,4 +1,6 @@
 const express = require('express');
+const path = require('path');
+const crypto = require('crypto');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
@@ -76,6 +78,7 @@ app.use('/api', [routes, postsroutes, todoRoutes/*, authUserRoute*/]);
 app.use(function (err, req, res, next) {
     console.log('inside error handler middle ware')
     if (err) {
+        console.log(err)
         console.log('inside error handler middle ware')
         res.send(err.message);
     }
@@ -87,9 +90,9 @@ app.get('/', function (req, res) {
 
 // @route POST /upload
 // @desc  Uploads file to DB
-app.post('/upload', upload.single('file'), (req, res) => {
+app.post('/uploads', upload.single('file'), (req, res) => {
     console.log(req.file)
-    // res.json({ file: req.file });
+     res.json({ file: req.file });
     //res.redirect('/');
   });
 

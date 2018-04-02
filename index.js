@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
-const GridFs = require('gridfs-stream');
+const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
 const routes = require('./routes/users');
 const postsroutes = require('./routes/posts');
@@ -18,9 +18,9 @@ var LocalStrategy = require('passport-local').Strategy;
 
 
 const app = express();
-
+var mongoURI = 'mongodb://prabeen04:chicharito14@ds125368.mlab.com:25368/prabeen-restapi';
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://prabeen04:chicharito14@ds125368.mlab.com:25368/prabeen-restapi');
+mongoose.connect(mongoURI);
 // mongoose.connect('mongodb://localhost/users');
 
 //Get the default connection
@@ -29,7 +29,36 @@ var db = mongoose.connection;
 //Bind connection to error event (to get notification of connection errors)
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 // 
+// Init gfs
+let gfs;
 
+db.once('open', () => {
+    console.log('mongoose.mongo')
+  // Init stream
+   gfs = Grid(db, mongoose.mongo);
+   gfs.collection('uploads');
+});
+// Create storage engine
+const storage = new GridFsStorage({
+    url: mongoURI,
+    file: (req, file) => {
+      return new Promise((resolve, reject) => {
+        crypto.randomBytes(16, (err, buf) => {
+          if (err) {
+            return reject(err);
+          }
+          const filename = buf.toString('hex') + path.extname(file.originalname);
+          const fileInfo = {
+            filename: filename,
+            bucketName: 'uploads'
+          };
+          resolve(fileInfo);
+        });
+      });
+    }
+  });
+  const upload = multer({ storage });
+  
 /////middlewares////
 // cors middleware
 app.use(cors())
@@ -56,6 +85,13 @@ app.get('/', function (req, res) {
     res.send('Go to /api to connect to the restAPI');
 });
 
+// @route POST /upload
+// @desc  Uploads file to DB
+app.post('/upload', upload.single('file'), (req, res) => {
+    console.log(req.file)
+    // res.json({ file: req.file });
+    //res.redirect('/');
+  });
 
 app.listen(process.env.PORT || 8080, function () {
     console.log('server started...');

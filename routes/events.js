@@ -21,8 +21,9 @@ router.get('/events', function (req, res) {
 });
 
 //event request to /events
-router.event('/events', function (req, res, next) {
+router.post('/events', function (req, res, next) {
     var events = (req.body);
+    console.log(events)
     Events.create(events)
         .then(event => {
             res.status(200).send(event)

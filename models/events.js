@@ -9,10 +9,10 @@ var EventSchema = new schema({
     user: {
         type: String
     },
-    eventStart: {
+    start: {
         type: Date,
     },
-    eventEnd: {
+    end: {
         type: Date,
     },
     description: {

@@ -12,6 +12,14 @@ router.get('/users', function (req, res, next) {
         })
         .catch(next)
 });
+//GET request to /users/:id
+router.get('/users/:id', function (req, res, next) {
+    Users.findOne({ "_id": req.params.id })
+        .then(user => {
+            res.status(200).send(user);
+        })
+        .catch(next)
+});
 //POST request to /users
 router.post('/users', function (req, res, next) {   
     var users = (req.body);

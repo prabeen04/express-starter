@@ -20,6 +20,15 @@ router.get('/posts', function (req, res) {
         })
 });
 
+//GET request to /posts/:id
+router.get('/posts/:id', function (req, res, next) {
+            Posts.findOne({ "_id": req.params.id })
+                .then(post => {
+                    res.status(200).send(post);
+                })
+                .catch(next)
+});
+
 //POST request to /posts
 router.post('/posts', function (req, res, next) {
     var posts = (req.body);

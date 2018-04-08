@@ -14,7 +14,7 @@ router.get('/users', function (req, res, next) {
 });
 //GET request to /users/:id
 router.get('/users/:id', function (req, res, next) {
-    Users.findOne({ "_id": req.params.id })
+    Users.findById({ "_id": req.params.id })
         .then(user => {
             res.status(200).send(user);
         })

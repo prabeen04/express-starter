@@ -11,17 +11,18 @@ const routes = require('./routes/users');
 const postsroutes = require('./routes/posts');
 const eventsRoutes = require('./routes/events');
 const todoRoutes = require('./routes/todo_routes');
-// const authUserRoute = require('./routes/authUserRoute');
+const authUserRoute = require('./routes/authUserRoute');
 var cors = require('cors')
 const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 
 var passport = require("passport");
 var LocalStrategy = require('passport-local').Strategy;
-
+var mongodbURL = require('./config/database.config') 
 
 const app = express();
-var mongoURI = 'mongodb://prabeen04:chicharito14@ds125368.mlab.com:25368/prabeen-restapi';
+// var mongoURI = 'mongodb://prabeen04:chicharito14@ds125368.mlab.com:25368/prabeen-restapi';
+ var mongoURI = mongodbURL.mongodbURL;
 mongoose.Promise = global.Promise;
 mongoose.connect(mongoURI);
 // mongoose.connect('mongodb://localhost/users');
@@ -74,7 +75,7 @@ app.use(bodyParser.urlencoded({
 app.use(methodOverride( '_method'));
 app.use(passport.initialize());
 // route handler middleware
-app.use('/api', [routes, postsroutes, todoRoutes, eventsRoutes/*, authUserRoute*/]);
+app.use('/api', [routes, postsroutes, todoRoutes, eventsRoutes, authUserRoute]);
 // error handling middleware
 app.use(function (err, req, res, next) {
     console.log('inside error handler middle ware')

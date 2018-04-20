@@ -18,8 +18,8 @@ opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = 'chicharito14';
 // opts.issuer = 'accounts.examplesoft.com';
 // opts.audience = 'yoursite.net';
-passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
-    User.findOne({id: jwt_payload.sub}, function(err, user) {
+passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
+    User.findOne({ id: jwt_payload.sub }, function (err, user) {
         if (err) {
             return done(err, false);
         }
@@ -70,36 +70,39 @@ router.post('/login',
         session: false
     }),
     function (req, res, next) {
+        console.log(`---------getting user request for login----------------`)
         console.log(req.user)
         // check for validation error server-side and throw error
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.mapped() });
         }
-        const token = jwt.sign({id: req.user._id}, 'chicharito14');
+        const token = jwt.sign({ id: req.user._id }, 'chicharito14');
+        console.log(`---------getting successfull login token----------------`)
         console.log(token);
         return res.json(token);
-    //     passport.authenticate('local', {session: false}, (err, user, info) => {
-    //         console.log('inside passport authenticate')
-    //         console.log(err);
-    //         if (err || !user) {
-    //             return res.status(400).json({
-    //                 message: info ? info.message : 'Login failed',
-    //                 user   : user
-    //             });
-    //         }
-    
-    //         req.login(user, {session: false}, (err) => {
-    //             if (err) {
-    //                 res.send(err);
-    //             }
-    
-    //             const token = jwt.sign(user, 'chicharito14');
-    
-    //             return res.json({user, token});
-    //         });
-    // })
+        //     passport.authenticate('local', {session: false}, (err, user, info) => {
+        //         console.log('inside passport authenticate')
+        //         console.log(err);
+        //         if (err || !user) {
+        //             return res.status(400).json({
+        //                 message: info ? info.message : 'Login failed',
+        //                 user   : user
+        //             });
+        //         }
+
+        //         req.login(user, {session: false}, (err) => {
+        //             if (err) {
+        //                 res.send(err);
+        //             }
+
+        //             const token = jwt.sign(user, 'chicharito14');
+
+        //             return res.json({user, token});
+        //         });
+        // })
     });
+
 // GET ALL THE USERS FROM THE AUTHENTICATED USERS
 router.get('/register', function (req, res, next) {
     AuthUser.find()
@@ -140,9 +143,11 @@ router.post('/register',
                     email: req.body.email,
                     password: hash
                 }
+                console.log(`---------after bcrypting password----------------`)
                 console.log(user);
                 AuthUser.create(user)
                     .then(user => {
+                        console.log(`---------after creating User and sending the user response----------------`)
                         console.log(user);
                         res.status(200).send(user);
                     })

@@ -151,7 +151,9 @@ router.post('/register',
                         console.log(user);
                         res.status(200).send(user);
                     })
-                    .catch(next)
+                    .catch(next =>{
+                        next()
+                    })
             });
         });
 

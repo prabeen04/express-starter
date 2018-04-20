@@ -14,10 +14,11 @@ var JwtStrategy = passportJWT.Strategy;
 var jwt = require('jsonwebtoken');
 
 var opts = {}
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderWithScheme('jwt');
 opts.secretOrKey = 'chicharito14';
 // opts.issuer = 'accounts.examplesoft.com';
 // opts.audience = 'yoursite.net';
+console.log(ExtractJwt)
 passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
     User.findOne({ id: jwt_payload.sub }, function (err, user) {
         if (err) {

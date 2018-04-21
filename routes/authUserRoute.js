@@ -13,12 +13,12 @@ var ExtractJwt = require("passport-jwt").ExtractJwt;
 var JwtStrategy = require("passport-jwt").Strategy;
 var jwt = require('jsonwebtoken');
 
-var opts = {}
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = 'chicharito14';
+// var opts = {}
+// opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+// opts.secretOrKey = 'chicharito14';
 // opts.issuer = 'accounts.examplesoft.com';
 // opts.audience = 'yoursite.net';
-console.log(opts)
+// console.log(opts)
 // passport.use(new JwtStrategy(opts, function (jwt_payload, done) {
 //     User.findOne({ id: jwt_payload.sub }, function (err, user) {
 //         if (err) {

@@ -9,8 +9,8 @@ const saltRounds = 10;
 var passport = require('passport')
 var LocalStrategy = require('passport-local').Strategy;
 var passportJWT = require("passport-jwt");
-var ExtractJwt = passportJWT.ExtractJwt;
-var JwtStrategy = passportJWT.Strategy;
+var ExtractJwt = require("passport-jwt").ExtractJwt;
+var JwtStrategy = require("passport-jwt").Strategy;
 var jwt = require('jsonwebtoken');
 
 var opts = {}

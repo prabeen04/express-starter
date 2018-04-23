@@ -7,25 +7,37 @@ const multer = require('multer');
 const GridFsStorage = require('multer-gridfs-storage');
 const Grid = require('gridfs-stream');
 const methodOverride = require('method-override');
+const nodemailer = require('nodemailer');
 const routes = require('./routes/users');
 const postsroutes = require('./routes/posts');
 const eventsRoutes = require('./routes/events');
 const todoRoutes = require('./routes/todo_routes');
-const authUserRoute = require('./routes/authUserRoute');
 var cors = require('cors')
 const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
 
 var passport = require("passport");
-var LocalStrategy = require('passport-local').Strategy;
 var mongodbURL = require('./config/database.config') 
+const authUserRoute = require('./routes/authUserRoute');
 
 const app = express();
 var mongoURI = mongodbURL.mongodbURL;
 mongoose.Promise = global.Promise;
 mongoose.connect(mongoURI);
-// mongoose.connect('mongodb://localhost/users');
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+         user: 'prabeen22061990@gmail.com',
+         pass: 'chicharito14'
+     }
+ });
 
+ const mailOptions = {
+  from: 'prabeen22061990@gmail.com', // sender address
+  to: 'prabeen.strange@gmail.com', // list of receivers
+  subject: 'its Working ', // Subject line
+  html: '<p>dummy message</p>'// plain text body
+};
 //Get the default connection
 var db = mongoose.connection;
 

@@ -22,6 +22,7 @@
     "mongoose": "^5.0.1",
     "multer": "^1.3.0",
     "multer-gridfs-storage": "^3.0.1",
+    "nodemailer": "^4.6.4",
     "nodemon": "^1.14.11",
     "passport": "^0.4.0",
     "passport-jwt": "1.0.0",

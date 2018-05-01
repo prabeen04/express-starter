@@ -9,15 +9,13 @@ router.get('/', function (req, res) {
 });
 
 //GET request to /events
-router.get('/events', function (req, res) {
+router.get('/events', function (req, res, next) {
     Events.find()
         .then(events => {
             res.status(200).send(events)
             next()
         })
-        .catch(err => {
-            res.status(500).send(err)
-        })
+        .catch(next)
 });
 
 //event request to /events
@@ -26,6 +24,7 @@ router.post('/events', function (req, res, next) {
     console.log(events)
     Events.create(events)
         .then(event => {
+            console.log(event)
             res.status(200).send(event)
         })
         .catch(next)

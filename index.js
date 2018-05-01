@@ -27,13 +27,13 @@ mongoose.connect(mongoURI);
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-         user: 'prabeen22061990@gmail.com',
+         user: 'prabeen.strange@gmail.com',
          pass: 'chicharito14'
      }
  });
 
  const mailOptions = {
-  from: 'prabeen22061990@gmail.com', // sender address
+  from: 'prabeen.strange@gmail.com', // sender address
   to: 'prabeen.strange@gmail.com', // list of receivers
   subject: 'its Working ', // Subject line
   html: '<p>dummy message</p>'// plain text body
@@ -98,6 +98,12 @@ app.use(function (err, req, res, next) {
     next();
 })
 app.get('/', function (req, res) {
+  transporter.sendMail(mailOptions, function (err, info) {
+    if(err)
+      console.log(err)
+    else
+      console.log(info);
+ });
     res.send('Go to /api to connect to the restAPI');
 });
 
